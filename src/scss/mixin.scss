@@ -1,0 +1,8 @@
+@use "src/scss/variables.scss";
+
+@mixin selectButton {
+	background: linear-gradient(
+		variables.$button--select--backgroundGradientTop,
+		variables.$button--select--backgroundGradientBottom
+	);
+}

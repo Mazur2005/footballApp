@@ -1,6 +1,11 @@
 @import "./reset.scss";
 @import "./variables.scss";
 
+html {
+	font-size: 10px;
+}
 body {
-	font-size: $fontFamily;
+	font-family: $fontFamily;
+	background-color: $backgroundColor--primary;
+	color: $font--color--primary;
 }

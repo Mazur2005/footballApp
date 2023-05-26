@@ -1,3 +1,4 @@
+@use "../mixin.scss";
 .header {
 	display: flex;
 	justify-content: center;
@@ -19,20 +20,10 @@
 		content: url("src/assets/icon/fire.svg");
 	}
 	&__button {
-		font-size: 2rem;
-		text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-		margin-top: 2rem;
-		padding: 1rem 3rem;
-		border-radius: 1rem;
-		color: rgba(255, 255, 255, 1);
-		letter-spacing: 0.2rem;
-		background-color: rgba(255, 91, 44, 1);
-		border: none;
-		outline: none;
-		transition: background 0.3s;
+		@include mixin.linkButton;
 	}
 	&__button:focus {
-		background-color: rgba(255, 90, 44, 0.706);
+		@include mixin.linkButtonFocused;
 	}
 }
 

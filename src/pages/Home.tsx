@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styles from "../scss/module/Home.module.scss";
 
 const Home = () => {
@@ -8,9 +9,11 @@ const Home = () => {
 				<h2 className={styles["header__secondary--header"]}>
 					Football score for free
 				</h2>
-				<button className={styles.header__button}>TRY IT</button>
+				<Link to={"/AuthOptions"} className={styles.header__button}>
+					TRY IT
+				</Link>
 			</header>
-			<div className={styles.img}></div>
+			<div className={styles.img} aria-label='Add page'></div>
 		</>
 	);
 };

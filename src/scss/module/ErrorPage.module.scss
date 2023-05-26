@@ -1,0 +1,30 @@
+@use "../mixin.scss";
+.errorPage {
+	padding: 10rem 1rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	&__header {
+		font-size: 8rem;
+		font-weight: 700;
+	}
+	&__apology {
+		margin-top: 2rem;
+		font-size: 2rem;
+		text-align: center;
+		font-weight: 300;
+	}
+	&__errorMessage {
+		display: block;
+		font-size: 2rem;
+		margin-top: 2rem;
+		border-bottom: 1px solid red;
+	}
+	&__homeButton {
+		@include mixin.linkButton;
+	}
+	&__homeButton:focus {
+		@include mixin.linkButtonFocused;
+	}
+}

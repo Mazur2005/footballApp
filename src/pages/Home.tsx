@@ -9,7 +9,7 @@ const Home = () => {
 				<h2 className={styles["header__secondary--header"]}>
 					Football score for free
 				</h2>
-				<Link to={"/AuthOptions"} className={styles.header__button}>
+				<Link to='AuthOptions' className={styles.header__button}>
 					TRY IT
 				</Link>
 			</header>

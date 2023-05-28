@@ -1,0 +1,70 @@
+@use "/src/scss/variables.scss";
+
+.authOptions {
+	width: 95%;
+	margin: 0 auto;
+	&__cover {
+		background-image: url("/src/assets/img/authOptions.svg");
+		background-position: center;
+		background-repeat: no-repeat;
+		width: 100%;
+		min-height: 325.5px;
+		height: 60vh;
+	}
+	&__boxTexts {
+		padding: 2rem 20% 4rem 1rem;
+		font-family: variables.$fontFamily--secondary;
+
+		&__header {
+			font-weight: 600;
+			font-size: 5rem;
+			margin-bottom: 1rem;
+		}
+		&__description {
+			font-weight: 300;
+			font-size: 2rem;
+			line-height: 2.5rem;
+			color: variables.$font--color--secondary;
+		}
+	}
+	&__buttons {
+		padding-left: 1rem;
+		padding-bottom: 1rem;
+		display: flex;
+		gap: 1rem;
+		font-family: variables.$fontFamily--secondary;
+
+		&__singIn {
+			color: variables.$font--color--primary;
+			background-color: rgba(36, 107, 253, 1);
+			width: 75%;
+			padding: 2rem 7.3rem 2rem 7.3rem;
+			border-radius: 1.6rem;
+			font-weight: 600;
+			font-size: 1.8rem;
+		}
+		&__singUp {
+			color: variables.$font--color--secondary;
+			background-color: inherit;
+			border-radius: 1.6rem;
+			font-weight: 400;
+			font-size: 1.5rem;
+			padding: 1rem;
+		}
+		&__singUp,
+		&__singIn {
+			border: none;
+			outline: none;
+			text-decoration: none;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		&__singIn:focus {
+			background-color: rgb(29, 82, 187);
+		}
+		&__singUp:focus {
+			background-color: rgba(29, 82, 187, 0.284);
+		}
+	}
+}

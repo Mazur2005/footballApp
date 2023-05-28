@@ -1,17 +1,28 @@
-import { AuthOptions } from "./pages/AuthOptions";
+import { AuthOptions } from "./pages/authOptions/AuthOptions";
 import { ErrorPage } from "./pages/ErrorPage";
 import { Home } from "./pages/Home";
+import { SingIn } from "./pages/authOptions/children/SingIn";
+import { SingUp } from "./pages/authOptions/children/SingUp";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const router = createBrowserRouter([
 	{
-		path: "/",
-		element: <Home />,
 		errorElement: <ErrorPage />,
-	},
-	{
-		path: "/AuthOptions",
-		element: <AuthOptions />,
+		path: "/",
+		children: [
+			{
+				index: true,
+				element: <Home />,
+			},
+			{
+				path: "AuthOptions",
+				children: [
+					{ index: true, element: <AuthOptions /> },
+					{ path: "SingIn", element: <SingIn /> },
+					{ path: "SingUp", element: <SingUp /> },
+				],
+			},
+		],
 	},
 ]);
 

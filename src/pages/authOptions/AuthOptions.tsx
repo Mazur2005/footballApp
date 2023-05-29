@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import styles from "/src/scss/module/AuthOptions.module.scss";
+import styles from "/src/scss/module/AuthOptions/AuthOptions.module.scss";
 const AuthOptions = () => {
 	return (
 		<div className={styles.authOptions}>

@@ -1,4 +1,6 @@
+import { SyntaxForm } from "../SyntaxForm";
+
 const SingIn = () => {
-	return <div>dasjhvdausyd</div>;
+	return <SyntaxForm signIn={false} />;
 };
 export { SingIn };

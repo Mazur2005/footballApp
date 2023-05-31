@@ -1,4 +1,6 @@
 @use "/src/scss/variables.scss";
+@use "/src/scss/mixin.scss";
+
 .background {
 	position: absolute;
 	top: 0%;
@@ -37,36 +39,29 @@
 		font-size: 2.8rem;
 		margin-bottom: 3.2rem;
 	}
-	&__bodyInput {
-		width: 27rem;
-		height: 6.4rem;
-		border-radius: 1.6rem;
-		padding-left: 2rem;
-		background-color: rgba(24, 24, 41, 1);
-		border: none;
-		outline: none;
-		margin-bottom: 2.4rem;
-		color: rgba(101, 101, 107, 1);
-		display: flex;
-		align-items: center;
-		&__input {
-			color: rgba(101, 101, 107, 1);
-			background-color: inherit;
-			margin-right: 1rem;
+	@import "/src/scss/module/AuthOptions/syntaxForm/bodyInput.scss";
+	@import "/src/scss/module/AuthOptions/syntaxForm/checkbox--button.scss";
+	&__singIn {
+		@include mixin.loginOrRegisterButton;
+		padding: 20px 73px 20px 73px;
+		font-size: 1.8rem;
+	}
+	&__singIn:focus {
+		@include mixin.loginOrRegisterButtonFocused;
+	}
+	&__question {
+		font-family: variables.$fontFamily--secondary;
+		color: variables.$font--color--secondary;
+		font-weight: 400;
+		text-align: center;
+		margin-top: 2rem;
+		margin-bottom: 1.5rem;
+		&__singUp {
+			text-decoration: none;
 			margin-left: 0.5rem;
-			padding-left: 0.5rem;
-			border: none;
-			outline: none;
-		}
-		&__input:focus {
-			border-bottom: 1px solid black;
+			color: rgba(36, 107, 253, 1);
 		}
 	}
-	// &__input:placeholder {
-	// 	font-size: 1.4rem;
-	// 	font-weight: 600;
-	// 	color: rgba(101, 101, 107, 1);
-	// }
 }
 .form::after {
 	content: "";

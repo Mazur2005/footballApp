@@ -23,3 +23,16 @@
 @mixin linkButtonFocused {
 	background-color: variables.$button--link--focused--background;
 }
+
+@mixin loginOrRegisterButton {
+	font-family: variables.$fontFamily--secondary;
+	color: variables.$font--color--primary;
+	background-color: variables.$button--loginOrRegister--background;
+	border-radius: 1.6rem;
+	font-weight: 600;
+	border: none;
+	outline: none;
+}
+@mixin loginOrRegisterButtonFocused {
+	background-color: variables.$button--loginOrRegister--background;
+}

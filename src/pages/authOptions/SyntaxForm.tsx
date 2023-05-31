@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import styles from "/src/scss/module/AuthOptions/SyntaxForm.module.scss";
+import styles from "/src/scss/module/AuthOptions/syntaxForm/SyntaxForm.module.scss";
 
 interface Props {
 	signIn: boolean;
@@ -44,16 +44,28 @@ const SyntaxForm = (props: Props) => {
 						)}
 					</div>
 				))}
-				<div>
-					<label htmlFor='rememberMe'>
-						<input type='checkbox' value='rememberMe' />
+				<div className={styles["form__checkbox--button"]}>
+					<label
+						htmlFor='rememberMe'
+						className={styles["form__checkbox--button__label"]}>
+						<input
+							type='checkbox'
+							value='rememberMe'
+							id='rememberMe'
+							className={styles["form__checkbox--button__checkbox"]}
+						/>
 						Remember me
 					</label>
-					<button>Forgot Password</button>
+					<Link to={".."} className={styles["form__checkbox--button__button"]}>
+						Forgot Password
+					</Link>
 				</div>
-				<button>Sing in</button>
-				<p>
-					Don't have account? <Link to='../SingUp'>Sing UP</Link>
+				<button className={styles.form__singIn}>Sing in</button>
+				<p className={styles.form__question}>
+					Don't have account?
+					<Link className={styles.form__question__singUp} to='../SingUp'>
+						Sing UP
+					</Link>
 				</p>
 			</form>
 		</div>

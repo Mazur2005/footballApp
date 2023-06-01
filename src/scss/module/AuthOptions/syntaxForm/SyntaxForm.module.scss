@@ -41,12 +41,13 @@
 	}
 	@import "/src/scss/module/AuthOptions/syntaxForm/bodyInput.scss";
 	@import "/src/scss/module/AuthOptions/syntaxForm/checkbox--button.scss";
-	&__singIn {
+	&__loginOrRegisterButton {
 		@include mixin.loginOrRegisterButton;
 		padding: 20px 73px 20px 73px;
 		font-size: 1.8rem;
+		margin-bottom: 2rem;
 	}
-	&__singIn:focus {
+	&__loginOrRegisterButton:focus {
 		@include mixin.loginOrRegisterButtonFocused;
 	}
 	&__question {
@@ -54,13 +55,20 @@
 		color: variables.$font--color--secondary;
 		font-weight: 400;
 		text-align: center;
-		margin-top: 2rem;
 		margin-bottom: 1.5rem;
-		&__singUp {
+		&__singUpOrLogIn {
 			text-decoration: none;
 			margin-left: 0.5rem;
 			color: rgba(36, 107, 253, 1);
 		}
+	}
+	&__error {
+		font-family: variables.$fontFamily--secondary;
+		margin-bottom: 2.9rem;
+		margin-top: -1.9rem;
+		font-size: 1.2rem;
+		text-align: center;
+		color: rgb(227, 22, 22);
 	}
 }
 .form::after {

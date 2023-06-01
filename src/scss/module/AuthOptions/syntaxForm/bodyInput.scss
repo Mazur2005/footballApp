@@ -1,8 +1,9 @@
 &__bodyInput {
-    width: 27rem;
+    // width: 27rem;
     height: 6.4rem;
     border-radius: 1.6rem;
     padding-left: 2rem;
+    padding-right: 2rem;
     background-color: rgba(24, 24, 41, 1);
     border: none;
     outline: none;
@@ -11,10 +12,12 @@
     display: flex;
     align-items: center;
     &__input {
+        flex-grow: 2;
         color: rgba(101, 101, 107, 1);
         background-color: inherit;
-        margin-right: 1rem;
+        // margin-right: 1rem;
         margin-left: 0.5rem;
+        margin-right: 0.5rem;
         padding-left: 0.5rem;
         border: none;
         outline: none;

@@ -1,7 +1,7 @@
 import { SyntaxForm } from "../syntax/SyntaxForm";
 
 const structure = {
-	inputs: ["Name", "Email", "Password", "Phone", "Address"],
+	inputs: ["Name", "Email", "Password", "Phone", ],
 	header: "Register",
 	isLogIn: false,
 };

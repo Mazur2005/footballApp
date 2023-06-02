@@ -62,14 +62,7 @@
 			color: rgba(36, 107, 253, 1);
 		}
 	}
-	&__error {
-		font-family: variables.$fontFamily--secondary;
-		margin-bottom: 2.9rem;
-		margin-top: -1.9rem;
-		font-size: 1.2rem;
-		text-align: center;
-		color: rgb(227, 22, 22);
-	}
+	
 }
 .form::after {
 	content: "";

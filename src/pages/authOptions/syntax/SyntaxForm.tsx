@@ -1,82 +1,83 @@
 import { Link } from "react-router-dom";
 import styles from "/src/scss/module/AuthOptions/syntaxForm/SyntaxForm.module.scss";
-import toggle from "/src/scss/module/toggle.module.scss";
-import { ChangeEvent, FormEvent, useState } from "react";
-import { selectTypeInput, selectIcon } from "./selectValue";
-
-///icons
-const show = "/src/assets/icon/show.svg";
-const hide = "/src/assets/icon/hide.svg";
-///
+import { useState, KeyboardEvent } from "react";
+import { getHideOrShow, selectIcon } from "./selectIcon";
+import { selectTypeInput } from "./selectType";
+import { SubmitHandler, useForm } from "react-hook-form";
+import {
+	maxLength,
+	minLength,
+	preventInputE,
+	regexValidation,
+} from "./validate";
 
 interface Structure {
 	inputs: string[];
 	header: string;
 	isLogIn: boolean;
 }
+type Inputs = {
+	[key: string]: string;
+};
 interface Props {
 	structure: Structure;
 }
-type FormData = {
-	[key: string]: string;
-};
 
 const SyntaxForm = ({ structure }: Props) => {
 	const { header, inputs, isLogIn } = structure;
 	const [isVisibilityPassword, setIsVisibilityPassword] =
 		useState<boolean>(false);
-	const [formData, setFormData] = useState<FormData>({
-		name: "",
-		email: "",
-		password: "",
-		phone: "",
-		address: "",
-	});
-
-	const sendTheForm = (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
+	const {
+		register,
+		handleSubmit,
+		// watch,
+		formState: { errors },
+	} = useForm<Inputs>();
+	const onSubmit: SubmitHandler<Inputs> = data => {
+		console.log(data);
 	};
+	console.log(errors);
+
 	return (
 		<div>
 			<div className={styles.background} aria-label='cover page'></div>
-			<form onSubmit={sendTheForm} className={styles.form}>
+			<form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
 				<h1 className={styles.form__header}>{header}</h1>
 				{inputs.map((el: string) => (
-					<div key={el}>
-						<div className={styles.form__bodyInput}>
+					<div key={el} className={styles.form__bodyInput}>
+						<img
+							src={selectIcon(el)}
+							alt={`${el} icon`}
+							className={styles.form__bodyInput__icon}
+						/>
+						<input
+							{...register(el, {
+								required: "Required",
+								validate: regexValidation(el),
+								minLength: minLength(el),
+								maxLength: maxLength(el),
+							})}
+							onKeyDown={(e: KeyboardEvent<HTMLInputElement>) =>
+								preventInputE(el, e)
+							}
+							placeholder={el}
+							className={styles.form__bodyInput__input}
+							type={selectTypeInput(el, isVisibilityPassword)}
+						/>
+						<p className={styles.form__bodyInput__error}>
+							{errors[el]?.message}
+						</p>
+
+						{el === "Password" && (
 							<img
-								src={selectIcon(el)}
-								alt={`${el} icon`}
+								src={getHideOrShow(isVisibilityPassword)}
+								alt='toggle watch icon'
 								className={styles.form__bodyInput__icon}
-							/>
-							<input
-								required
-								placeholder={el}
-								className={styles.form__bodyInput__input}
-								type={selectTypeInput(el, isVisibilityPassword)}
-								value={formData[el.toLowerCase()]}
-								onChange={(e: ChangeEvent<HTMLInputElement>) =>
-									setFormData(prevFormData => ({
-										...prevFormData,
-										[el.toLowerCase()]: e.target.value,
-									}))
+								onClick={() =>
+									setIsVisibilityPassword((prevState: boolean) => !prevState)
 								}
 							/>
-
-							{el === "Password" && (
-								<img
-									src={isVisibilityPassword ? show : hide}
-									alt='toggle watch icon'
-									className={styles.form__bodyInput__icon}
-									onClick={() =>
-										setIsVisibilityPassword((prevState: boolean) => !prevState)
-									}
-								/>
-							)}
-						</div>
-						<div className={`${styles.form__error} ${toggle.hidden}`}>
-							errorMessage
-						</div>
+						)}
 					</div>
 				))}
 
@@ -85,6 +86,7 @@ const SyntaxForm = ({ structure }: Props) => {
 						htmlFor='rememberMe'
 						className={styles["form__checkbox--button__label"]}>
 						<input
+							{...register("checkbox")}
 							type='checkbox'
 							value='rememberMe'
 							id='rememberMe'

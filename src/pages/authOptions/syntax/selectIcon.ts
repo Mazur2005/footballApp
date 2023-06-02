@@ -3,6 +3,8 @@ const password = "/src/assets/icon/password.svg";
 const profile = "/src/assets/icon/profile.svg";
 const phone = "/src/assets/icon/call.svg";
 const address = "/src/assets/icon/home.svg";
+const show = "/src/assets/icon/show.svg";
+const hide = "/src/assets/icon/hide.svg";
 
 export const selectIcon = (input: string) => {
 	switch (input) {
@@ -18,19 +20,5 @@ export const selectIcon = (input: string) => {
 			return address;
 	}
 };
-export const selectTypeInput = (
-	input: string,
-	isVisibilityPassword: boolean
-) => {
-	if (input === "Password" && isVisibilityPassword) return "text";
-	switch (input) {
-		case "Password":
-			return "password";
-		case "Email":
-			return "email";
-		case "Phone":
-			return "number";
-		default:
-			return "text";
-	}
-};
+export const getHideOrShow = (isVisibilityPassword: boolean): string =>
+	isVisibilityPassword ? show : hide;

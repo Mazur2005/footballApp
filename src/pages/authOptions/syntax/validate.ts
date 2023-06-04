@@ -35,28 +35,28 @@ export const regexValidation =
 	(el: string) =>
 	(value: string): string | boolean | undefined => {
 		switch (el) {
-			case "Name":
+			case "name":
 				return nameValidate(value);
-			case "Password":
+			case "password":
 				return passwordValidate(value);
-			case "Phone":
+			case "phone":
 				return phoneValidate(value);
 		}
 	};
 
 export const minLength = (el: string): ValidationRule<number> | undefined => {
 	switch (el) {
-		case "Name":
+		case "name":
 			return syntaxCheckLength(4, "Minimum");
-		case "Password":
+		case "password":
 			return syntaxCheckLength(6, "Minimum");
 	}
 };
 export const maxLength = (el: string): ValidationRule<number> | undefined => {
 	switch (el) {
-		case "Name":
+		case "name":
 			return syntaxCheckLength(10, "Maximum");
-		case "Password":
+		case "password":
 			return syntaxCheckLength(20, "Maximum");
 	}
 };
@@ -65,7 +65,7 @@ export const preventInputE = (
 	el: string,
 	e: KeyboardEvent<HTMLInputElement>
 ) => {
-	if (el === "Phone") {
+	if (el === "phone") {
 		["e", "E", "+", "-"].includes(e.key) && e.preventDefault();
 	}
 };

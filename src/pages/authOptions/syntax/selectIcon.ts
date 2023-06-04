@@ -8,15 +8,15 @@ const hide = "/src/assets/icon/hide.svg";
 
 export const selectIcon = (input: string) => {
 	switch (input) {
-		case "Email":
+		case "email":
 			return message;
-		case "Password":
+		case "password":
 			return password;
-		case "Name":
+		case "name":
 			return profile;
-		case "Phone":
+		case "phone":
 			return phone;
-		case "Address":
+		case "address":
 			return address;
 	}
 };

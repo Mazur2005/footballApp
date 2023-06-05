@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styles from "/src/scss/module/AuthOptions/syntaxForm/SyntaxForm.module.scss";
-import { useState, KeyboardEvent } from "react";
+import { useState, KeyboardEvent, useEffect } from "react";
 import { getHideOrShow, selectIcon } from "./selectIcon";
 import { selectTypeInput } from "./selectType";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -10,6 +10,9 @@ import {
 	preventInputE,
 	regexValidation,
 } from "./validate";
+import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { auth, googleAuthProvider, db } from "../../../data/fireBase";
+import { collection, getDocs, addDoc } from "firebase/firestore";
 
 interface Structure {
 	inputs: string[];
@@ -21,9 +24,11 @@ type Inputs = {
 };
 interface Props {
 	structure: Structure;
+	onSubmit: SubmitHandler<Inputs>;
+	handleGoogleProvider?: () => Promise<void>;
 }
 
-const SyntaxForm = ({ structure }: Props) => {
+const SyntaxForm = ({ structure, onSubmit, handleGoogleProvider }: Props) => {
 	const { header, inputs, isLogIn } = structure;
 	const [isVisibilityPassword, setIsVisibilityPassword] =
 		useState<boolean>(false);
@@ -33,11 +38,27 @@ const SyntaxForm = ({ structure }: Props) => {
 		// watch,
 		formState: { errors },
 	} = useForm<Inputs>();
-	const onSubmit: SubmitHandler<Inputs> = data => {
-		console.log(data);
-	};
-	console.log(errors);
 
+	/// db
+	// const userCollection = collection(db, "users");
+	// useEffect(() => {
+	// 	const getUsers = async () => {
+	// 		try {
+	// 			const users = await getDocs(userCollection);
+	// 			const filteredData = users.docs.map(
+	// 				doc => console.log(doc.id)
+	// 				// {// ...doc.data(),
+	// 				// id: doc.id,}
+	// 			);
+	// 			// console.log(filteredData);
+	// 		} catch (error) {}
+	// 	};
+	// 	getUsers();
+	// }, []);
+/////////////////////////////////////////////////////////
+	const getFirstCapitalLetter = (el: string): string => {
+		return el.charAt(0).toUpperCase() + el.slice(1);
+	};
 	return (
 		<div>
 			<div className={styles.background} aria-label='cover page'></div>
@@ -60,7 +81,7 @@ const SyntaxForm = ({ structure }: Props) => {
 							onKeyDown={(e: KeyboardEvent<HTMLInputElement>) =>
 								preventInputE(el, e)
 							}
-							placeholder={el}
+							placeholder={getFirstCapitalLetter(el)}
 							className={styles.form__bodyInput__input}
 							type={selectTypeInput(el, isVisibilityPassword)}
 						/>
@@ -106,6 +127,7 @@ const SyntaxForm = ({ structure }: Props) => {
 				<button type='submit' className={styles.form__loginOrRegisterButton}>
 					{isLogIn ? "Sing in" : "Sing up"}
 				</button>
+				<button onClick={handleGoogleProvider}>sing in with google</button>
 
 				<p className={styles.form__question}>
 					{isLogIn ? `Don't have account?` : "Do have account?"}

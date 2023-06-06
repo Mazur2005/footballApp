@@ -3,6 +3,7 @@ import { SyntaxForm } from "../syntax/SyntaxForm";
 import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, db, googleAuthProvider } from "../../../data/fireBase";
 import { addDoc, collection } from "firebase/firestore";
+import { setLocalStorage } from "../../../hooks/localStorage";
 type Inputs = {
 	[key: string]: string;
 };
@@ -17,6 +18,7 @@ const SingUp = () => {
 	const onSubmit: SubmitHandler<Inputs> = async data => {
 		const { name, phone, password, email } = data;
 		try {
+			setLocalStorage({ email });
 			await createUserWithEmailAndPassword(auth, email, password);
 			await addDoc(userCollection, {
 				name,

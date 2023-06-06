@@ -32,6 +32,7 @@ const SyntaxForm = ({ structure, onSubmit, handleGoogleProvider }: Props) => {
 	const { header, inputs, isLogIn } = structure;
 	const [isVisibilityPassword, setIsVisibilityPassword] =
 		useState<boolean>(false);
+
 	const {
 		register,
 		handleSubmit,
@@ -39,23 +40,6 @@ const SyntaxForm = ({ structure, onSubmit, handleGoogleProvider }: Props) => {
 		formState: { errors },
 	} = useForm<Inputs>();
 
-	/// db
-	// const userCollection = collection(db, "users");
-	// useEffect(() => {
-	// 	const getUsers = async () => {
-	// 		try {
-	// 			const users = await getDocs(userCollection);
-	// 			const filteredData = users.docs.map(
-	// 				doc => console.log(doc.id)
-	// 				// {// ...doc.data(),
-	// 				// id: doc.id,}
-	// 			);
-	// 			// console.log(filteredData);
-	// 		} catch (error) {}
-	// 	};
-	// 	getUsers();
-	// }, []);
-/////////////////////////////////////////////////////////
 	const getFirstCapitalLetter = (el: string): string => {
 		return el.charAt(0).toUpperCase() + el.slice(1);
 	};
@@ -89,7 +73,7 @@ const SyntaxForm = ({ structure, onSubmit, handleGoogleProvider }: Props) => {
 							{errors[el]?.message}
 						</p>
 
-						{el === "Password" && (
+						{el === "password" && (
 							<img
 								src={getHideOrShow(isVisibilityPassword)}
 								alt='toggle watch icon'

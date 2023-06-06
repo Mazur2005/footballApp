@@ -2,13 +2,13 @@ export const selectTypeInput = (
 	input: string,
 	isVisibilityPassword: boolean
 ) => {
-	if (input === "Password" && isVisibilityPassword) return "text";
+	if (input === "password" && isVisibilityPassword) return "text";
 	switch (input) {
-		case "Password":
+		case "password":
 			return "password";
-		case "Email":
+		case "email":
 			return "email";
-		case "Phone":
+		case "phone":
 			return "number";
 		default:
 			return "text";

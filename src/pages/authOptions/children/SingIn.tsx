@@ -1,12 +1,10 @@
 import { SyntaxForm } from "../syntax/SyntaxForm";
 import { SubmitHandler } from "react-hook-form";
 import {
-	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
-	signInWithPopup,
 } from "firebase/auth";
-import { auth, db, googleAuthProvider } from "../../../data/fireBase";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { auth, db } from "../../../data/fireBase";
+import { collection, getDocs } from "firebase/firestore";
 
 const structure = {
 	inputs: ["email", "password"],

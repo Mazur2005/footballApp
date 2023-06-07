@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styles from "/src/scss/module/AuthOptions/syntaxForm/SyntaxForm.module.scss";
-import { useState, KeyboardEvent, useEffect } from "react";
+import { useState, KeyboardEvent } from "react";
 import { getHideOrShow, selectIcon } from "./selectIcon";
 import { selectTypeInput } from "./selectType";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -10,9 +10,6 @@ import {
 	preventInputE,
 	regexValidation,
 } from "./validate";
-import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import { auth, googleAuthProvider, db } from "../../../data/fireBase";
-import { collection, getDocs, addDoc } from "firebase/firestore";
 
 interface Structure {
 	inputs: string[];

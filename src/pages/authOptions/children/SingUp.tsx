@@ -3,7 +3,7 @@ import { SyntaxForm } from "../syntax/SyntaxForm";
 import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, db, googleAuthProvider } from "../../../data/fireBase";
 import { addDoc, collection } from "firebase/firestore";
-import { setLocalStorage } from "../../../hooks/localStorage";
+import { setLocalStorage } from "../../../utils/localStorage";
 type Inputs = {
 	[key: string]: string;
 };

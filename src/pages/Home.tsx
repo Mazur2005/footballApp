@@ -1,6 +1,6 @@
 import styles from "/src/scss/module/Home.module.scss";
 import { collection, getDocs } from "firebase/firestore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { db } from "../data/fireBase";
 import { useNavigate } from "react-router-dom";
 import { getLocalStorage } from "../utils/localStorage";
@@ -10,7 +10,7 @@ const Home = () => {
 	const userCollection = collection(db, "users");
 	const [isDisabled, setIsDisabled] = useState<boolean>(false);
 
-	const getUsers = async (): Promise<object | undefined> => {
+	const getRememberedFlag = async (): Promise<object | undefined> => {
 		const users = await getDocs(userCollection);
 		const filteredData = users.docs.find(doc => {
 			if (doc.data().email === getLocalStorage("email")) {
@@ -18,15 +18,12 @@ const Home = () => {
 			}
 		});
 
-		return filteredData?.data() !== undefined
-			? filteredData?.data()
-			: undefined;
+		return filteredData?.data() || undefined;
 	};
 
-	const Link = async (): Promise<void> => {
+	const handleLink = async (): Promise<void> => {
 		setIsDisabled(true);
-		console.log(getUsers());
-		const isUserExist = await getUsers();
+		const isUserExist = await getRememberedFlag();
 		isUserExist !== undefined ? navigate("dupa") : navigate("AuthOptions");
 	};
 	return (
@@ -37,7 +34,7 @@ const Home = () => {
 					Football score for free
 				</h2>
 				<button
-					onClick={Link}
+					onClick={handleLink}
 					disabled={isDisabled}
 					className={styles.header__button}>
 					TRY IT

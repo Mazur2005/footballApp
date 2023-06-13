@@ -4,11 +4,15 @@ import { useState, KeyboardEvent } from "react";
 import { getHideOrShow, selectIcon } from "./selectIcon";
 import { selectTypeInput } from "./selectType";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { ShowFireBaseError } from "./ShowFireBaseError";
+
 import {
+	// getFairBaseError,
 	maxLength,
 	minLength,
 	preventInputE,
-	regexValidation,
+	// regexValidation,
+	validation,
 } from "./validate";
 
 interface Structure {
@@ -19,17 +23,29 @@ interface Structure {
 type Inputs = {
 	[key: string]: string;
 };
+interface FireBaseError {
+	emailInUse?: boolean;
+	userNotFound?: boolean;
+	wrongPassword?: boolean;
+	tooManyRequests?: boolean;
+}
 interface Props {
 	structure: Structure;
 	onSubmit: SubmitHandler<Inputs>;
 	handleGoogleProvider?: () => Promise<void>;
+	fireBaseError: FireBaseError;
 }
 
-const SyntaxForm = ({ structure, onSubmit, handleGoogleProvider }: Props) => {
+const SyntaxForm = ({
+	structure,
+	onSubmit,
+	handleGoogleProvider,
+	fireBaseError,
+}: Props) => {
 	const { header, inputs, isLogIn } = structure;
 	const [isVisibilityPassword, setIsVisibilityPassword] =
 		useState<boolean>(false);
-
+	const [isDisableForm, setIsDisableForm] = useState<boolean>(true);
 	const {
 		register,
 		handleSubmit,
@@ -40,6 +56,7 @@ const SyntaxForm = ({ structure, onSubmit, handleGoogleProvider }: Props) => {
 	const getFirstCapitalLetter = (el: string): string => {
 		return el.charAt(0).toUpperCase() + el.slice(1);
 	};
+
 	return (
 		<div>
 			<div className={styles.background} aria-label='cover page'></div>
@@ -55,9 +72,9 @@ const SyntaxForm = ({ structure, onSubmit, handleGoogleProvider }: Props) => {
 						<input
 							{...register(el, {
 								required: "Required",
-								validate: regexValidation(el),
-								minLength: minLength(el),
-								maxLength: maxLength(el),
+								validate: isLogIn ? () => true : validation(el),
+								minLength: isLogIn ? undefined : minLength(el),
+								maxLength: isLogIn ? undefined : maxLength(el),
 							})}
 							onKeyDown={(e: KeyboardEvent<HTMLInputElement>) =>
 								preventInputE(el, e)
@@ -66,6 +83,10 @@ const SyntaxForm = ({ structure, onSubmit, handleGoogleProvider }: Props) => {
 							className={styles.form__bodyInput__input}
 							type={selectTypeInput(el, isVisibilityPassword)}
 						/>
+						{el !== "phone" && el !== "name" && (
+							<ShowFireBaseError el={el} fireBaseError={fireBaseError} />
+						)}
+
 						<p className={styles.form__bodyInput__error}>
 							{errors[el]?.message}
 						</p>

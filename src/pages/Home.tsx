@@ -1,31 +1,37 @@
 import styles from "/src/scss/module/Home.module.scss";
-import { collection, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { db } from "../data/fireBase";
 import { useNavigate } from "react-router-dom";
 import { getLocalStorage } from "../utils/localStorage";
+import { allUsers, getUsers } from "../utils/allUsersInDataBase";
 
 const Home = () => {
 	const navigate = useNavigate();
-	const userCollection = collection(db, "users");
 	const [isDisabled, setIsDisabled] = useState<boolean>(false);
 
 	const getRememberedFlag = async (): Promise<object | undefined> => {
-		const users = await getDocs(userCollection);
-		const filteredData = users.docs.find(doc => {
-			if (doc.data().email === getLocalStorage("email")) {
-				return doc.data();
+		const filteredData = allUsers.find(user => {
+			if (user.email === getLocalStorage("email")) {
+				return user;
 			}
 		});
 
-		return filteredData?.data() || undefined;
+		return filteredData || undefined;
 	};
 
 	const handleLink = async (): Promise<void> => {
 		setIsDisabled(true);
 		const isUserExist = await getRememberedFlag();
-		isUserExist !== undefined ? navigate("dupa") : navigate("AuthOptions");
+		// isUserExist !== undefined ? navigate("dupa") : navigate("AuthOptions");
+		isUserExist !== undefined ? navigate("AuthOptions") : navigate("dupa");
 	};
+	useEffect(() => {
+		setIsDisabled(true);
+		const uploadAllUsers = async () => {
+			allUsers.push(...(await getUsers()));
+			setIsDisabled(false);
+		};
+		uploadAllUsers();
+	}, []);
 	return (
 		<>
 			<header className={styles.header}>

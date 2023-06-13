@@ -4,6 +4,8 @@ import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, db, googleAuthProvider } from "../../../data/fireBase";
 import { addDoc, collection } from "firebase/firestore";
 import { setLocalStorage } from "../../../utils/localStorage";
+import { FirebaseError } from "firebase/app";
+import { useState } from "react";
 type Inputs = {
 	[key: string]: string;
 };
@@ -12,13 +14,18 @@ const structure = {
 	header: "Register",
 	isLogIn: false,
 };
+interface FireBaseError {
+	emailInUse: boolean;
+}
 const SingUp = () => {
+	const [fireBaseError, setFireBaseError] = useState<FireBaseError>({
+		emailInUse: false,
+	});
 	const userCollection = collection(db, "users");
-
 	const onSubmit: SubmitHandler<Inputs> = async data => {
 		const { name, phone, password, email } = data;
 		try {
-			setLocalStorage({ email });
+			setFireBaseError({ emailInUse: false });
 			await createUserWithEmailAndPassword(auth, email, password);
 			await addDoc(userCollection, {
 				name,
@@ -26,25 +33,17 @@ const SingUp = () => {
 				email,
 				password,
 			});
-		} catch (error) {
-			switch (error) {
-				case "auth/email-already-in-use":
-					console.log(`Email address ${email} already in use.`);
-					break;
-				case "auth/invalid-email":
-					console.log(`Email address ${email} is invalid.`);
-					break;
-				case "auth/operation-not-allowed":
-					console.log(`Error during sign up.`);
-					break;
-				case "auth/weak-password":
-					console.log(
-						"Password is not strong enough. Add additional characters including special characters and numbers."
-					);
-					break;
+			setLocalStorage({ email });
+		} catch (error: any) {
+			if (
+				error instanceof FirebaseError &&
+				error.code === "auth/email-already-in-use"
+			) {
+				setFireBaseError({ emailInUse: true });
 			}
 		}
 	};
+
 	const handleGoogleProvider: () => Promise<void> = async () => {
 		try {
 			await signInWithPopup(auth, googleAuthProvider);
@@ -57,6 +56,7 @@ const SingUp = () => {
 			structure={structure}
 			onSubmit={onSubmit}
 			handleGoogleProvider={handleGoogleProvider}
+			fireBaseError={fireBaseError}
 		/>
 	);
 };

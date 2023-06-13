@@ -5,4 +5,6 @@ export const errorMessage = {
 	USE_AT_LEAST_ONE_DIGIT: "Use at least one digit",
 	THIS_NUMBER_DOEST_EXIST: "This number doesn't exist",
 	EMAIL_IS_IN_USE: "Email is in use",
+	USER_NOT_FOUND: "User not found",
+	WRONG_PASSWORD: 'Wrong password'
 };

@@ -6,7 +6,7 @@ import { allUsers, getUsers } from "../utils/allUsersInDataBase";
 
 const Home = () => {
 	const navigate = useNavigate();
-	const [isDisabled, setIsDisabled] = useState<boolean>(true);
+	const [isDisabled, setIsDisabled] = useState<boolean>(false);
 
 	const getRememberedFlag = async (): Promise<object | undefined> => {
 		const filteredData = allUsers.find(user => {
@@ -21,10 +21,11 @@ const Home = () => {
 	const handleLink = async (): Promise<void> => {
 		setIsDisabled(true);
 		const isUserExist = await getRememberedFlag();
-		isUserExist !== undefined ? navigate("dupa") : navigate("AuthOptions");
-		// isUserExist !== undefined ? navigate("AuthOptions") : navigate("dupa");
+		// isUserExist !== undefined ? navigate("dupa") : navigate("AuthOptions");
+		isUserExist !== undefined ? navigate("AuthOptions") : navigate("dupa");
 	};
 	useEffect(() => {
+		setIsDisabled(true);
 		const uploadAllUsers = async () => {
 			allUsers.push(...(await getUsers()));
 			setIsDisabled(false);

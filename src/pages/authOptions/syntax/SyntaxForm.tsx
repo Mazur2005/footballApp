@@ -7,13 +7,12 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { ShowFireBaseError } from "./ShowFireBaseError";
 
 import {
-	// getFairBaseError,
 	maxLength,
 	minLength,
 	preventInputE,
-	// regexValidation,
 	validation,
 } from "./validate";
+import { SearchingForContactsAnimation } from "./SearchingForContactsAnimation";
 
 interface Structure {
 	inputs: string[];
@@ -34,22 +33,22 @@ interface Props {
 	onSubmit: SubmitHandler<Inputs>;
 	handleGoogleProvider?: () => Promise<void>;
 	fireBaseError: FireBaseError;
+	isDisableForm: boolean;
 }
 
 const SyntaxForm = ({
 	structure,
 	onSubmit,
-	handleGoogleProvider,
 	fireBaseError,
+	isDisableForm,
 }: Props) => {
 	const { header, inputs, isLogIn } = structure;
+	const { tooManyRequests } = fireBaseError;
 	const [isVisibilityPassword, setIsVisibilityPassword] =
 		useState<boolean>(false);
-	const [isDisableForm, setIsDisableForm] = useState<boolean>(true);
 	const {
 		register,
 		handleSubmit,
-		// watch,
 		formState: { errors },
 	} = useForm<Inputs>();
 
@@ -58,10 +57,23 @@ const SyntaxForm = ({
 	};
 
 	return (
-		<div>
-			<div className={styles.background} aria-label='cover page'></div>
-			<form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-				<h1 className={styles.form__header}>{header}</h1>
+		<div aria-disabled={isDisableForm}>
+			{isDisableForm && <SearchingForContactsAnimation />}
+			<div
+				className={`${styles.background} 
+				${isDisableForm && styles.blurBackground}`}
+				aria-label='cover page'></div>
+			<form
+				onSubmit={handleSubmit(onSubmit)}
+				className={`${styles.form} ${isDisableForm && styles.blurForm}`}>
+				<header className={styles.form__header}>
+					<h1 className={styles.form__header__primary}>{header}</h1>
+					{tooManyRequests && (
+						<h2 className={styles.form__header__secondary}>
+							Too many requests. Try again later
+						</h2>
+					)}
+				</header>
 				{inputs.map((el: string) => (
 					<div key={el} className={styles.form__bodyInput}>
 						<img
@@ -129,8 +141,6 @@ const SyntaxForm = ({
 				<button type='submit' className={styles.form__loginOrRegisterButton}>
 					{isLogIn ? "Sing in" : "Sing up"}
 				</button>
-				<button onClick={handleGoogleProvider}>sing in with google</button>
-
 				<p className={styles.form__question}>
 					{isLogIn ? `Don't have account?` : "Do have account?"}
 

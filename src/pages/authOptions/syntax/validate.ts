@@ -1,12 +1,16 @@
 import { ValidationRule } from "react-hook-form";
 import { errorMessage } from "./errorMessage";
 import { KeyboardEvent } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../../data/fireBase";
+
 const {
 	CANT_USE_SPECIAL__CHARACTERS,
 	USE_AT_ONE_SPECIAL__CHARACTERS,
 	USE_AT_LEAST_ONE_CAPITAL_LETTER,
 	USE_AT_LEAST_ONE_DIGIT,
 	THIS_NUMBER_DOEST_EXIST,
+	EMAIL_IS_IN_USE,
 } = errorMessage;
 
 const nameValidate = (value: string) => {
@@ -31,7 +35,7 @@ const syntaxCheckLength = (number: number, range: string) => {
 	};
 };
 
-export const regexValidation =
+export const validation =
 	(el: string) =>
 	(value: string): string | boolean | undefined => {
 		switch (el) {
@@ -40,7 +44,7 @@ export const regexValidation =
 			case "password":
 				return passwordValidate(value);
 			case "phone":
-				return phoneValidate(value);
+				return phoneValidate(value);	
 		}
 	};
 

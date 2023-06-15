@@ -1,7 +1,7 @@
 import { SubmitHandler } from "react-hook-form";
 import { SyntaxForm } from "../syntax/SyntaxForm";
-import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import { auth, db, googleAuthProvider } from "../../../data/fireBase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from "../../../data/fireBase";
 import { addDoc, collection } from "firebase/firestore";
 import { setLocalStorage } from "../../../utils/localStorage";
 import { FirebaseError } from "firebase/app";
@@ -18,21 +18,23 @@ interface FireBaseError {
 	emailInUse: boolean;
 }
 const SingUp = () => {
+	const [isDisableForm, setIsDisableForm] = useState<boolean>(false);
 	const [fireBaseError, setFireBaseError] = useState<FireBaseError>({
 		emailInUse: false,
 	});
-	const userCollection = collection(db, "users");
-	const onSubmit: SubmitHandler<Inputs> = async data => {
+
+	const userRegistration = async (data: Inputs): Promise<void> => {
 		const { name, phone, password, email } = data;
 		try {
-			setFireBaseError({ emailInUse: false });
 			await createUserWithEmailAndPassword(auth, email, password);
+			const userCollection = collection(db, "users");
 			await addDoc(userCollection, {
 				name,
 				phone: Number(phone),
 				email,
 				password,
 			});
+			setIsDisableForm(false);
 			setLocalStorage({ email });
 		} catch (error: any) {
 			if (
@@ -40,23 +42,25 @@ const SingUp = () => {
 				error.code === "auth/email-already-in-use"
 			) {
 				setFireBaseError({ emailInUse: true });
+				setIsDisableForm(false);
 			}
 		}
 	};
 
-	const handleGoogleProvider: () => Promise<void> = async () => {
-		try {
-			await signInWithPopup(auth, googleAuthProvider);
-		} catch (error) {
-			console.log(error);
-		}
+	const onSubmit: SubmitHandler<Inputs> = async data => {
+		setIsDisableForm(true);
+		setFireBaseError({ emailInUse: false });
+		setTimeout(() => {
+			userRegistration(data);
+		}, 2500);
 	};
+
 	return (
 		<SyntaxForm
 			structure={structure}
 			onSubmit={onSubmit}
-			handleGoogleProvider={handleGoogleProvider}
 			fireBaseError={fireBaseError}
+			isDisableForm={isDisableForm}
 		/>
 	);
 };

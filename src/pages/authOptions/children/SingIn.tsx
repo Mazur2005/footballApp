@@ -19,24 +19,22 @@ interface FireBaseError {
 }
 
 const SingIn = () => {
+	const [isDisableForm, setIsDisableForm] = useState<boolean>(false);
 	const [fireBaseError, setFireBaseError] = useState<FireBaseError>({
 		userNotFound: false,
 		wrongPassword: false,
 		tooManyRequests: false,
 	});
-	const onSubmit: SubmitHandler<Inputs> = async data => {
+
+	const findUsers = async (data: Inputs): Promise<void> => {
 		const { email, password } = data;
 		try {
-			setFireBaseError({
-				userNotFound: false,
-				wrongPassword: false,
-				tooManyRequests: false,
-			});
 			await signInWithEmailAndPassword(auth, email, password);
+			setIsDisableForm(false);
 		} catch (error: any) {
+			setIsDisableForm(false);
 			switch (error.code) {
 				case "auth/too-many-requests":
-					console.log(error.code);
 					setFireBaseError(prevErrors => ({
 						...prevErrors,
 						tooManyRequests: true,
@@ -57,11 +55,24 @@ const SingIn = () => {
 			}
 		}
 	};
+
+	const onSubmit: SubmitHandler<Inputs> = async data => {
+		setIsDisableForm(true);
+		setFireBaseError({
+			userNotFound: false,
+			wrongPassword: false,
+			tooManyRequests: false,
+		});
+		setTimeout(() => {
+			findUsers(data);
+		}, 2500);
+	};
 	return (
 		<SyntaxForm
 			structure={structure}
 			onSubmit={onSubmit}
 			fireBaseError={fireBaseError}
+			isDisableForm={isDisableForm}
 		/>
 	);
 };

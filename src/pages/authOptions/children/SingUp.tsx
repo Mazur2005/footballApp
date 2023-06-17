@@ -12,7 +12,9 @@ type Inputs = {
 const structure = {
 	inputs: ["name", "email", "password", "phone"],
 	header: "Register",
+	isValidate: true,
 	isLogIn: false,
+	isRemindPassword: false,
 };
 interface FireBaseError {
 	emailInUse: boolean;

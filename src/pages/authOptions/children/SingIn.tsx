@@ -7,7 +7,9 @@ import { useState } from "react";
 const structure = {
 	inputs: ["email", "password"],
 	header: "Welcome",
+	isValidate: false,
 	isLogIn: true,
+	isRemindPassword: false,
 };
 type Inputs = {
 	[key: string]: string;

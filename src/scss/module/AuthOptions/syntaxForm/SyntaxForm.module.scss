@@ -32,15 +32,10 @@
 	padding: 4rem 2.4rem 0rem 2.4rem;
 	display: flex;
 	flex-direction: column;
-	z-index: 2;
-	&__header {
-		font-family: variables.$fontFamily--secondary;
-		font-weight: 600;
-		font-size: 2.8rem;
-		margin-bottom: 3.2rem;
-	}
+	@import "/src/scss/module/AuthOptions/syntaxForm/header.scss";
 	@import "/src/scss/module/AuthOptions/syntaxForm/bodyInput.scss";
 	@import "/src/scss/module/AuthOptions/syntaxForm/checkbox--button.scss";
+
 	&__loginOrRegisterButton {
 		@include mixin.loginOrRegisterButton;
 		padding: 20px 73px 20px 73px;
@@ -62,7 +57,6 @@
 			color: rgba(36, 107, 253, 1);
 		}
 	}
-	
 }
 .form::after {
 	content: "";
@@ -74,4 +68,24 @@
 	height: 0.5rem;
 	border-radius: 10rem;
 	background-color: rgba(255, 255, 255, 0.107);
+}
+
+.blurForm {
+	position: relative;
+}
+.blurBackground {
+	position: absolute;
+}
+
+.blurForm::before,
+.blurBackground::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.159);
+	z-index: 2;
+	backdrop-filter: blur(1px);
 }

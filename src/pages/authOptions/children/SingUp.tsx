@@ -15,6 +15,12 @@ const structure = {
 	isValidate: true,
 	isLogIn: false,
 	isRemindPassword: false,
+	textOnButton: "Sing up",
+	changePath: {
+		text: "Do have account?",
+		link: "Sing In",
+		path: "../SingIn",
+	},
 };
 interface FireBaseError {
 	emailInUse: boolean;

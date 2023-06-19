@@ -10,6 +10,12 @@ const structure = {
 	isValidate: false,
 	isLogIn: true,
 	isRemindPassword: false,
+	textOnButton: "Sing in",
+	changePath: {
+		text: "Don't have account?",
+		link: "Sing up",
+		path: "../SingUp",
+	},
 };
 type Inputs = {
 	[key: string]: string;

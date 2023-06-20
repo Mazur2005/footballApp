@@ -2,11 +2,14 @@ import { useState } from "react";
 import { SyntaxForm } from "../syntax/SyntaxForm";
 import { auth } from "../../../data/fireBase";
 import { sendPasswordResetEmail } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
 
 const structure = {
 	inputs: ["email"],
-	header: "Remind password",
+	header: {
+		primary: "Remind password",
+		secondary: "Back to",
+		link: "../SingIn",
+	},
 	isValidate: false,
 	isLogIn: false,
 	isRemindPassword: true,
@@ -26,7 +29,6 @@ const RemindPassword = () => {
 	const [isDisableForm, setIsDisableForm] = useState<boolean>(false);
 	const [isSendedMessageResetPassword, setIsSendedMessageResetPassword] =
 		useState<boolean>(false);
-	const navigate = useNavigate();
 	const [fireBaseError, setFireBaseError] = useState<FireBaseError>({
 		userNotFound: false,
 	});
@@ -37,15 +39,13 @@ const RemindPassword = () => {
 			await sendPasswordResetEmail(auth, email);
 			setIsDisableForm(false);
 			setIsSendedMessageResetPassword(true);
-			
 		} catch (error: any) {
 			setIsDisableForm(false);
 			switch (error.code) {
 				case "auth/user-not-found":
-					setFireBaseError(prevErrors => ({
-						...prevErrors,
+					setFireBaseError({
 						userNotFound: true,
-					}));
+					});
 					break;
 			}
 		}

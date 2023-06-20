@@ -6,7 +6,11 @@ import { useState } from "react";
 
 const structure = {
 	inputs: ["email", "password"],
-	header: "Welcome",
+	header: {
+		primary: "Welcome",
+		secondary: "Too many requests. Try again later.",
+	},
+
 	isValidate: false,
 	isLogIn: true,
 	isRemindPassword: false,

@@ -1,28 +1,37 @@
-import { Link } from "react-router-dom";
 import styles from "/src/scss/module/AuthOptions/syntaxForm/SyntaxForm.module.scss";
-import { useState, KeyboardEvent } from "react";
-import { getHideOrShow, selectIcon } from "./selectIcon";
-import { selectTypeInput } from "./selectType";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { ShowFireBaseError } from "./ShowFireBaseError";
 
-import {
-	// getFairBaseError,
-	maxLength,
-	minLength,
-	preventInputE,
-	// regexValidation,
-	validation,
-} from "./validate";
+import { SubmitHandler, useForm } from "react-hook-form";
+
+import { SearchingForContactsAnimation } from "./SearchingForContactsAnimation";
+import { SyntaxHeader } from "./syntaxChildren/SyntaxHeader";
+import { Inputs } from "./syntaxChildren/Inputs";
+import { StringDictionary } from "../../../types/interface";
+import { RememberMeCheckbox } from "./syntaxChildren/RememberMeCheckbox";
+import { Submit } from "./syntaxChildren/Submit";
+import { ChangePath } from "./syntaxChildren/ChangePath";
+import { PopupSendedPassword } from "./syntaxChildren/PopupSendedPassword";
+
+interface ChangePath {
+	text: string;
+	link: string;
+	path: string;
+}
+interface Header {
+	primary: string;
+	secondary?: string;
+	link?: string;
+}
 
 interface Structure {
 	inputs: string[];
-	header: string;
+	header: Header;
 	isLogIn: boolean;
+	isValidate: boolean;
+	isRemindPassword: boolean;
+	textOnButton: string;
+	changePath: ChangePath;
 }
-type Inputs = {
-	[key: string]: string;
-};
+
 interface FireBaseError {
 	emailInUse?: boolean;
 	userNotFound?: boolean;
@@ -31,115 +40,71 @@ interface FireBaseError {
 }
 interface Props {
 	structure: Structure;
-	onSubmit: SubmitHandler<Inputs>;
+	onSubmit: SubmitHandler<StringDictionary>;
 	handleGoogleProvider?: () => Promise<void>;
 	fireBaseError: FireBaseError;
+	isDisableForm: boolean;
+	isSendedMessageResetPassword?: boolean;
 }
 
 const SyntaxForm = ({
 	structure,
 	onSubmit,
-	handleGoogleProvider,
 	fireBaseError,
+	isDisableForm,
+	isSendedMessageResetPassword,
 }: Props) => {
-	const { header, inputs, isLogIn } = structure;
-	const [isVisibilityPassword, setIsVisibilityPassword] =
-		useState<boolean>(false);
-	const [isDisableForm, setIsDisableForm] = useState<boolean>(true);
+	const {
+		header,
+		inputs,
+		isLogIn,
+		isValidate,
+		isRemindPassword,
+		textOnButton,
+		changePath,
+	} = structure;
+	const { text, link, path } = changePath;
+	const { tooManyRequests } = fireBaseError;
+
 	const {
 		register,
 		handleSubmit,
-		// watch,
 		formState: { errors },
-	} = useForm<Inputs>();
+	} = useForm<StringDictionary>();
 
-	const getFirstCapitalLetter = (el: string): string => {
-		return el.charAt(0).toUpperCase() + el.slice(1);
+	const condition = {
+		tooManyRequests,
+		isSendedMessageResetPassword,
 	};
-
 	return (
-		<div>
-			<div className={styles.background} aria-label='cover page'></div>
-			<form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-				<h1 className={styles.form__header}>{header}</h1>
-				{inputs.map((el: string) => (
-					<div key={el} className={styles.form__bodyInput}>
-						<img
-							src={selectIcon(el)}
-							alt={`${el} icon`}
-							className={styles.form__bodyInput__icon}
-						/>
-						<input
-							{...register(el, {
-								required: "Required",
-								validate: isLogIn ? () => true : validation(el),
-								minLength: isLogIn ? undefined : minLength(el),
-								maxLength: isLogIn ? undefined : maxLength(el),
-							})}
-							onKeyDown={(e: KeyboardEvent<HTMLInputElement>) =>
-								preventInputE(el, e)
-							}
-							placeholder={getFirstCapitalLetter(el)}
-							className={styles.form__bodyInput__input}
-							type={selectTypeInput(el, isVisibilityPassword)}
-						/>
-						{el !== "phone" && el !== "name" && (
-							<ShowFireBaseError el={el} fireBaseError={fireBaseError} />
-						)}
+		<div aria-disabled={isDisableForm}>
+			{isSendedMessageResetPassword ||
+				(isDisableForm && <SearchingForContactsAnimation />)}
 
-						<p className={styles.form__bodyInput__error}>
-							{errors[el]?.message}
-						</p>
-
-						{el === "password" && (
-							<img
-								src={getHideOrShow(isVisibilityPassword)}
-								alt='toggle watch icon'
-								className={styles.form__bodyInput__icon}
-								onClick={() =>
-									setIsVisibilityPassword((prevState: boolean) => !prevState)
-								}
-							/>
-						)}
-					</div>
-				))}
-
-				<div className={styles["form__checkbox--button"]}>
-					<label
-						htmlFor='rememberMe'
-						className={styles["form__checkbox--button__label"]}>
-						<input
-							{...register("checkbox")}
-							type='checkbox'
-							value='rememberMe'
-							id='rememberMe'
-							className={styles["form__checkbox--button__checkbox"]}
-						/>
-						Remember me
-					</label>
-					{isLogIn && (
-						<Link
-							to={".."}
-							className={styles["form__checkbox--button__button"]}>
-							Forgot Password
-						</Link>
-					)}
-				</div>
-
-				<button type='submit' className={styles.form__loginOrRegisterButton}>
-					{isLogIn ? "Sing in" : "Sing up"}
-				</button>
-				<button onClick={handleGoogleProvider}>sing in with google</button>
-
-				<p className={styles.form__question}>
-					{isLogIn ? `Don't have account?` : "Do have account?"}
-
-					<Link
-						className={styles.form__question__singUpOrLogIn}
-						to={isLogIn ? "../SingUp" : "../SingIn"}>
-						{isLogIn ? "Sing Up" : "Sing In"}
-					</Link>
-				</p>
+			{isSendedMessageResetPassword && <PopupSendedPassword />}
+			<div
+				className={`${styles.background} 
+				${isDisableForm && styles.blurBackground}`}
+				aria-label='cover page'></div>
+			<form
+				onSubmit={handleSubmit(onSubmit)}
+				className={`${styles.form} ${isDisableForm && styles.blurForm}`}>
+				<SyntaxHeader header={header} condition={condition} />
+				<Inputs
+					inputs={inputs}
+					isValidate={isValidate}
+					fireBaseError={fireBaseError}
+					register={register}
+					errors={errors}
+				/>
+				{isRemindPassword || (
+					<RememberMeCheckbox register={register} isLogIn={isLogIn} />
+				)}
+				<Submit
+					textOnButton={textOnButton}
+					isDisabled={isSendedMessageResetPassword}
+				/>
+				<ChangePath text={text} link={link} path={path} />
 			</form>
 		</div>
 	);

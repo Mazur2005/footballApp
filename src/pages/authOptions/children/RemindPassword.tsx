@@ -5,16 +5,19 @@ import { sendPasswordResetEmail } from "firebase/auth";
 
 const structure = {
 	inputs: ["email"],
-	header: {
-		primary: "Remind password",
-		secondary: "Back to",
-		link: "../SingIn",
-	},
+	header: "Remind password",
 	isValidate: false,
 	isLogIn: false,
 	isRemindPassword: true,
 	textOnButton: "Send message",
 	changePath: { text: "Bact to", link: "Sing in", path: "../SingIn" },
+	popupData: {
+		dataName: "remindPassword",
+		header: "Success",
+		text: "Check your email and back to",
+		link: "Sing in",
+		path: "../SingIn",
+	},
 };
 
 interface FireBaseError {
@@ -27,18 +30,18 @@ type Inputs = {
 
 const RemindPassword = () => {
 	const [isDisableForm, setIsDisableForm] = useState<boolean>(false);
-	const [isSendedMessageResetPassword, setIsSendedMessageResetPassword] =
-		useState<boolean>(false);
 	const [fireBaseError, setFireBaseError] = useState<FireBaseError>({
 		userNotFound: false,
 	});
+	const [isDisplayPopup, setIsDisplayPopup] = useState<boolean>(false);
+	const [showAnimation, setShowAnimation] = useState<boolean>(false);
 
 	const sendEmail = async (data: Inputs): Promise<void> => {
 		const { email } = data;
 		try {
-			await sendPasswordResetEmail(auth, email);
-			setIsDisableForm(false);
-			setIsSendedMessageResetPassword(true);
+			setShowAnimation(false);
+			// await sendPasswordResetEmail(auth, email);
+			setIsDisplayPopup(true);
 		} catch (error: any) {
 			setIsDisableForm(false);
 			switch (error.code) {
@@ -52,6 +55,7 @@ const RemindPassword = () => {
 	};
 	const onSubmit = async (data: Inputs): Promise<void> => {
 		setIsDisableForm(true);
+		setShowAnimation(true);
 		setFireBaseError({
 			userNotFound: false,
 		});
@@ -66,7 +70,8 @@ const RemindPassword = () => {
 			onSubmit={onSubmit}
 			fireBaseError={fireBaseError}
 			isDisableForm={isDisableForm}
-			isSendedMessageResetPassword={isSendedMessageResetPassword}
+			isDisplayPopup={isDisplayPopup}
+			showAnimation={showAnimation}
 		/>
 	);
 };

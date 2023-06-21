@@ -11,9 +11,7 @@ type Inputs = {
 };
 const structure = {
 	inputs: ["name", "email", "password", "phone"],
-	header: {
-		primary: "Register",
-	},
+	header: "Register",
 	isValidate: true,
 	isLogIn: false,
 	isRemindPassword: false,

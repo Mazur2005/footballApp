@@ -6,11 +6,7 @@ import { useState } from "react";
 
 const structure = {
 	inputs: ["email", "password"],
-	header: {
-		primary: "Welcome",
-		secondary: "Too many requests. Try again later.",
-	},
-
+	header: "Welcome",
 	isValidate: false,
 	isLogIn: true,
 	isRemindPassword: false,
@@ -20,7 +16,15 @@ const structure = {
 		link: "Sing up",
 		path: "../SingUp",
 	},
+	popupData: {
+		dataName: "toManyRequest",
+		header: "Error",
+		text: "To many request. Try again later",
+		link: "Home page",
+		path: "/",
+	},
 };
+
 type Inputs = {
 	[key: string]: string;
 };
@@ -37,20 +41,26 @@ const SingIn = () => {
 		wrongPassword: false,
 		tooManyRequests: false,
 	});
+	const [isDisplayPopup, setIsDisplayPopup] = useState<boolean>(false);
+	const [showAnimation, setShowAnimation] = useState<boolean>(false);
 
 	const findUsers = async (data: Inputs): Promise<void> => {
 		const { email, password } = data;
 		try {
 			await signInWithEmailAndPassword(auth, email, password);
 			setIsDisableForm(false);
+			setShowAnimation(false);
 		} catch (error: any) {
 			setIsDisableForm(false);
+			setShowAnimation(false);
 			switch (error.code) {
 				case "auth/too-many-requests":
 					setFireBaseError(prevErrors => ({
 						...prevErrors,
 						tooManyRequests: true,
 					}));
+					setIsDisplayPopup(true);
+					setIsDisableForm(true);
 					break;
 				case "auth/user-not-found":
 					setFireBaseError(prevErrors => ({
@@ -70,6 +80,7 @@ const SingIn = () => {
 
 	const onSubmit: SubmitHandler<Inputs> = async data => {
 		setIsDisableForm(true);
+		setShowAnimation(true);
 		setFireBaseError({
 			userNotFound: false,
 			wrongPassword: false,
@@ -85,6 +96,8 @@ const SingIn = () => {
 			onSubmit={onSubmit}
 			fireBaseError={fireBaseError}
 			isDisableForm={isDisableForm}
+			isDisplayPopup={isDisplayPopup}
+			showAnimation={showAnimation}
 		/>
 	);
 };

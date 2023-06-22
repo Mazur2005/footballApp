@@ -1,7 +1,12 @@
+///hooks
 import { useState } from "react";
-import { SyntaxForm } from "../syntax/SyntaxForm";
+///fire base
 import { auth } from "../../../data/fireBase";
 import { sendPasswordResetEmail } from "firebase/auth";
+/// syntax
+import { SyntaxForm } from "../syntax/SyntaxForm";
+/// types
+import { BooleanDictionary, StringDictionary } from "../../../types/interface";
 
 const structure = {
 	inputs: ["email"],
@@ -19,14 +24,9 @@ const structure = {
 		path: "../SingIn",
 	},
 };
-
-interface FireBaseError {
+interface FireBaseError extends BooleanDictionary {
 	userNotFound: boolean;
 }
-
-type Inputs = {
-	[key: string]: string;
-};
 
 const RemindPassword = () => {
 	const [isDisableForm, setIsDisableForm] = useState<boolean>(false);
@@ -36,11 +36,11 @@ const RemindPassword = () => {
 	const [isDisplayPopup, setIsDisplayPopup] = useState<boolean>(false);
 	const [showAnimation, setShowAnimation] = useState<boolean>(false);
 
-	const sendEmail = async (data: Inputs): Promise<void> => {
+	const sendEmail = async (data: StringDictionary): Promise<void> => {
 		const { email } = data;
 		try {
 			setShowAnimation(false);
-			// await sendPasswordResetEmail(auth, email);
+			await sendPasswordResetEmail(auth, email);
 			setIsDisplayPopup(true);
 		} catch (error: any) {
 			setIsDisableForm(false);
@@ -53,7 +53,7 @@ const RemindPassword = () => {
 			}
 		}
 	};
-	const onSubmit = async (data: Inputs): Promise<void> => {
+	const onSubmit = async (data: StringDictionary): Promise<void> => {
 		setIsDisableForm(true);
 		setShowAnimation(true);
 		setFireBaseError({

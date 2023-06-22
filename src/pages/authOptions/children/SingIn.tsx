@@ -1,8 +1,14 @@
-import { SyntaxForm } from "../syntax/SyntaxForm";
-import { SubmitHandler } from "react-hook-form";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../../data/fireBase";
+///hooks
 import { useState } from "react";
+import { SubmitHandler } from "react-hook-form";
+///fire base
+import { auth } from "../../../data/fireBase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+// /// syntax
+import { SyntaxForm } from "../syntax/SyntaxForm";
+// /// types
+import { BooleanDictionary, StringDictionary } from "../../../types/interface";
+
 
 const structure = {
 	inputs: ["email", "password"],
@@ -25,26 +31,23 @@ const structure = {
 	},
 };
 
-type Inputs = {
-	[key: string]: string;
-};
-interface FireBaseError {
-	userNotFound: boolean;
-	wrongPassword: boolean;
-	tooManyRequests: boolean;
+interface FireBaseError extends BooleanDictionary {
+	userNotFound: boolean,
+	wrongPassword: boolean,
+	tooManyRequests: boolean,
 }
 
 const SingIn = () => {
 	const [isDisableForm, setIsDisableForm] = useState<boolean>(false);
+	const [showAnimation, setShowAnimation] = useState<boolean>(false);
 	const [fireBaseError, setFireBaseError] = useState<FireBaseError>({
 		userNotFound: false,
 		wrongPassword: false,
 		tooManyRequests: false,
 	});
 	const [isDisplayPopup, setIsDisplayPopup] = useState<boolean>(false);
-	const [showAnimation, setShowAnimation] = useState<boolean>(false);
 
-	const findUsers = async (data: Inputs): Promise<void> => {
+	const findUsers = async (data: StringDictionary): Promise<void> => {
 		const { email, password } = data;
 		try {
 			await signInWithEmailAndPassword(auth, email, password);
@@ -78,7 +81,7 @@ const SingIn = () => {
 		}
 	};
 
-	const onSubmit: SubmitHandler<Inputs> = async data => {
+	const onSubmit: SubmitHandler<StringDictionary> = async data => {
 		setIsDisableForm(true);
 		setShowAnimation(true);
 		setFireBaseError({

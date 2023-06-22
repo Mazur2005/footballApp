@@ -1,14 +1,18 @@
-import { SubmitHandler } from "react-hook-form";
-import { SyntaxForm } from "../syntax/SyntaxForm";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth, db } from "../../../data/fireBase";
-import { addDoc, collection } from "firebase/firestore";
-import { setLocalStorage } from "../../../utils/localStorage";
-import { FirebaseError } from "firebase/app";
+///hooks
 import { useState } from "react";
-type Inputs = {
-	[key: string]: string;
-};
+import { SubmitHandler } from "react-hook-form";
+///fire base
+import { addDoc, collection } from "firebase/firestore";
+import { auth, db } from "../../../data/fireBase";
+import { FirebaseError } from "firebase/app";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+/// syntax
+import { SyntaxForm } from "../syntax/SyntaxForm";
+/// types
+import { BooleanDictionary, StringDictionary } from "../../../types/interface";
+/// local storage
+import { setLocalStorage } from "../../../utils/localStorage";
+
 const structure = {
 	inputs: ["name", "email", "password", "phone"],
 	header: "Register",
@@ -22,16 +26,17 @@ const structure = {
 		path: "../SingIn",
 	},
 };
-interface FireBaseError {
+interface FireBaseError extends BooleanDictionary {
 	emailInUse: boolean;
 }
 const SingUp = () => {
 	const [isDisableForm, setIsDisableForm] = useState<boolean>(false);
+	const [showAnimation, setShowAnimation] = useState<boolean>(false);
 	const [fireBaseError, setFireBaseError] = useState<FireBaseError>({
 		emailInUse: false,
 	});
 
-	const userRegistration = async (data: Inputs): Promise<void> => {
+	const userRegistration = async (data: StringDictionary): Promise<void> => {
 		const { name, phone, password, email } = data;
 		try {
 			await createUserWithEmailAndPassword(auth, email, password);
@@ -45,6 +50,8 @@ const SingUp = () => {
 			setIsDisableForm(false);
 			setLocalStorage({ email });
 		} catch (error: any) {
+			setIsDisableForm(false);
+			setShowAnimation(false);
 			if (
 				error instanceof FirebaseError &&
 				error.code === "auth/email-already-in-use"
@@ -55,8 +62,9 @@ const SingUp = () => {
 		}
 	};
 
-	const onSubmit: SubmitHandler<Inputs> = async data => {
+	const onSubmit: SubmitHandler<StringDictionary> = async data => {
 		setIsDisableForm(true);
+		setShowAnimation(true);
 		setFireBaseError({ emailInUse: false });
 		setTimeout(() => {
 			userRegistration(data);
@@ -69,6 +77,7 @@ const SingUp = () => {
 			onSubmit={onSubmit}
 			fireBaseError={fireBaseError}
 			isDisableForm={isDisableForm}
+			showAnimation={showAnimation}
 		/>
 	);
 };

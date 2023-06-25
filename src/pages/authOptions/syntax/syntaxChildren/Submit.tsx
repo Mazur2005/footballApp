@@ -5,11 +5,14 @@ interface Props {
 	isDisabled?: boolean;
 }
 const Submit = ({ textOnButton, isDisabled }: Props) => {
+	console.log(isDisabled);
 	return (
 		<button
 			disabled={isDisabled}
 			type='submit'
-			className={styles.form__loginOrRegisterButton}>
+			className={`
+			${styles.form__loginOrRegisterButton} 
+			${isDisabled && styles.displayBtn}`}>
 			{textOnButton}
 		</button>
 	);

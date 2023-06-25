@@ -29,7 +29,6 @@ const Inputs = (props: Props) => {
 	const getFirstCapitalLetter = (el: string): string => {
 		return el.charAt(0).toUpperCase() + el.slice(1);
 	};
-
 	return (
 		<>
 			{inputs.map((el: string) => (
@@ -52,7 +51,7 @@ const Inputs = (props: Props) => {
 						type={selectTypeInput(el, isVisibilityPassword)}
 					/>
 					{el !== "phone" && el !== "name" && (
-						<ShowFireBaseError fireBaseError={fireBaseError} />
+						<ShowFireBaseError el={el} fireBaseError={fireBaseError} />
 					)}
 
 					<p className={styles.form__bodyInput__error}>{errors[el]?.message}</p>

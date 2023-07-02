@@ -12,7 +12,6 @@ const ErrorPage = () => {
 		} else if (typeof error === "string") {
 			return error;
 		} else {
-			console.error(error);
 			return "Unknown error";
 		}
 	};

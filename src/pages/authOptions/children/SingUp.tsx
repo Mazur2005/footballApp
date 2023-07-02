@@ -48,6 +48,7 @@ const SingUp = () => {
 				password,
 			});
 			setIsDisableForm(false);
+			setShowAnimation(false);
 			setLocalStorage({ email });
 		} catch (error: any) {
 			setIsDisableForm(false);

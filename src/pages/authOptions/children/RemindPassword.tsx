@@ -40,8 +40,8 @@ const RemindPassword = () => {
 		const { email } = data;
 		try {
 			setShowAnimation(false);
-			await sendPasswordResetEmail(auth, email);
 			setIsDisplayPopup(true);
+			await sendPasswordResetEmail(auth, email);
 		} catch (error: any) {
 			setIsDisableForm(false);
 			switch (error.code) {

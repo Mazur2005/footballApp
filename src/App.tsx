@@ -4,7 +4,7 @@ import { Home } from "./pages/Home";
 import { SingIn } from "./pages/authOptions/children/SingIn";
 import { SingUp } from "./pages/authOptions/children/SingUp";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { RemindPassword } from "./pages/authOptions/children/remindPassword";
+import { RemindPassword } from "./pages/authOptions/children/RemindPassword";
 
 const router = createBrowserRouter([
 	{

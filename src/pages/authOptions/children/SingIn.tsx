@@ -1,13 +1,10 @@
-///hooks
 import { useState } from "react";
 import { SubmitHandler } from "react-hook-form";
-///fire base
 import { auth } from "../../../data/fireBase";
 import { signInWithEmailAndPassword } from "firebase/auth";
-// /// syntax
 import { SyntaxForm } from "../syntax/SyntaxForm";
-// /// types
 import { BooleanDictionary, StringDictionary } from "../../../types/interface";
+import { Navigate } from "react-router";
 
 
 const structure = {
@@ -53,6 +50,7 @@ const SingIn = () => {
 			await signInWithEmailAndPassword(auth, email, password);
 			setIsDisableForm(false);
 			setShowAnimation(false);
+			Navigate({ to: "feature page" });
 		} catch (error: any) {
 			setIsDisableForm(false);
 			setShowAnimation(false);

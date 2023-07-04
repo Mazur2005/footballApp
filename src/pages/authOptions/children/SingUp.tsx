@@ -1,17 +1,13 @@
-///hooks
 import { useState } from "react";
 import { SubmitHandler } from "react-hook-form";
-///fire base
 import { addDoc, collection } from "firebase/firestore";
 import { auth, db } from "../../../data/fireBase";
 import { FirebaseError } from "firebase/app";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-/// syntax
 import { SyntaxForm } from "../syntax/SyntaxForm";
-/// types
 import { BooleanDictionary, StringDictionary } from "../../../types/interface";
-/// local storage
 import { setLocalStorage } from "../../../utils/localStorage";
+import { Navigate } from "react-router";
 
 const structure = {
 	inputs: ["name", "email", "password", "phone"],
@@ -50,6 +46,7 @@ const SingUp = () => {
 			setIsDisableForm(false);
 			setShowAnimation(false);
 			setLocalStorage({ email });
+			Navigate({ to: "feature page" });
 		} catch (error: any) {
 			setIsDisableForm(false);
 			setShowAnimation(false);

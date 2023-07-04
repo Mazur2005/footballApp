@@ -1,11 +1,7 @@
-///hooks
 import { useState } from "react";
-///fire base
 import { auth } from "../../../data/fireBase";
 import { sendPasswordResetEmail } from "firebase/auth";
-/// syntax
 import { SyntaxForm } from "../syntax/SyntaxForm";
-/// types
 import { BooleanDictionary, StringDictionary } from "../../../types/interface";
 
 const structure = {

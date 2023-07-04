@@ -1,6 +1,7 @@
 import styles from "/src/scss/module/AuthOptions/syntaxForm/SyntaxForm.module.scss";
-import { errorMessage } from "./errorMessage";
-const { EMAIL_IS_IN_USE, USER_NOT_FOUND, WRONG_PASSWORD } = errorMessage;
+import { formErrorsMessage } from "../../../utils/errorMessage";
+
+const { EMAIL_IS_IN_USE, USER_NOT_FOUND, WRONG_PASSWORD } = formErrorsMessage;
 
 interface FireBaseError {
 	emailInUse?: boolean;
@@ -17,7 +18,6 @@ interface Props {
 const ShowFireBaseError = ({ fireBaseError, el }: Props) => {
 	const getFireBaseError = (): string | undefined => {
 		const { emailInUse, userNotFound, wrongPassword } = fireBaseError;
-
 		if (emailInUse && el === "email") return EMAIL_IS_IN_USE;
 		if (userNotFound && el === "email") return USER_NOT_FOUND;
 		if (wrongPassword && el === "password") return WRONG_PASSWORD;

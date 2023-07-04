@@ -1,17 +1,17 @@
 import styles from "/src/scss/module/AuthOptions/syntaxForm/SyntaxForm.module.scss";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { SearchingForContactsAnimation } from "./SearchingForContactsAnimation";
+import { SearchingForContactsAnimation } from "./popups/SearchingForContactsAnimation";
 import { SyntaxHeader } from "./syntaxChildren/SyntaxHeader";
-import { Inputs } from "./syntaxChildren/Inputs";
+import { SyntaxInputs } from "./syntaxChildren/SyntaxInputs";
 import {
 	StringDictionary,
 	Structure,
 	BooleanDictionary,
 } from "../../../types/interface";
-import { RememberMeCheckbox } from "./syntaxChildren/RememberMeCheckbox";
-import { Submit } from "./syntaxChildren/Submit";
-import { OptionToChangePath } from "./syntaxChildren/OptionToChangePath";
-import { Popup } from "./Popup";
+import { SyntaxRememberMeCheckbox } from "./syntaxChildren/SyntaxRememberMeCheckbox";
+import { SyntaxSubmit } from "./syntaxChildren/SyntaxSubmit";
+import { SyntaxOptionToChangePath } from "./syntaxChildren/SyntaxOptionToChangePath";
+import { Popup } from "./popups/Popup";
 
 interface Props {
 	structure: Structure;
@@ -61,7 +61,7 @@ const SyntaxForm = ({
 				onSubmit={handleSubmit(onSubmit)}
 				className={`${styles.form} ${isDisableForm && styles.blurForm}`}>
 				<SyntaxHeader header={header} />
-				<Inputs
+				<SyntaxInputs
 					inputs={inputs}
 					isValidate={isValidate}
 					fireBaseError={fireBaseError}
@@ -69,10 +69,10 @@ const SyntaxForm = ({
 					errors={errors}
 				/>
 				{isRemindPassword || (
-					<RememberMeCheckbox register={register} isLogIn={isLogIn} />
+					<SyntaxRememberMeCheckbox register={register} isLogIn={isLogIn} />
 				)}
-				<Submit textOnButton={textOnButton} />
-				<OptionToChangePath text={text} link={link} path={path} />
+				<SyntaxSubmit textOnButton={textOnButton} />
+				<SyntaxOptionToChangePath text={text} link={link} path={path} />
 			</form>
 		</div>
 	);

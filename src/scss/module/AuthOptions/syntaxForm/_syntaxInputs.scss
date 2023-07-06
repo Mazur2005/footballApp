@@ -1,0 +1,38 @@
+&__bodyInput {
+	position: relative;
+	height: 6.4rem;
+	border-radius: 1.6rem;
+	padding-left: 2rem;
+	padding-right: 2rem;
+	background-color: rgba(24, 24, 41, 1);
+	border: none;
+	outline: none;
+	margin-bottom: 2.4rem;
+	color: rgba(101, 101, 107, 1);
+	display: flex;
+	align-items: center;
+	&__input {
+		flex-grow: 2;
+		color: rgba(101, 101, 107, 1);
+		background-color: inherit;
+		margin-left: 0.5rem;
+		margin-right: 0.5rem;
+		padding-left: 0.5rem;
+		border: none;
+		outline: none;
+	}
+	&__input:focus {
+		border-bottom: 1px solid black;
+	}
+	&__error {
+		font-family: variables.$fontFamily--secondary;
+		position: absolute;
+		bottom: 0.1rem;
+		left: 50%;
+		transform: translateX(-50%);
+        width: 100%;
+        text-align: center;
+		font-size: 1.2rem;
+		color: rgb(227, 22, 22);
+	}
+}

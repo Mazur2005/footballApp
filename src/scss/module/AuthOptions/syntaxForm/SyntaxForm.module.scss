@@ -32,32 +32,13 @@
 	padding: 4rem 2.4rem 0rem 2.4rem;
 	display: flex;
 	flex-direction: column;
-	@import "/src/scss/module/AuthOptions/syntaxForm/header.scss";
-	@import "/src/scss/module/AuthOptions/syntaxForm/bodyInput.scss";
-	@import "/src/scss/module/AuthOptions/syntaxForm/checkbox--button.scss";
-
-	&__loginOrRegisterButton {
-		@include mixin.loginOrRegisterButton;
-		padding: 20px 73px 20px 73px;
-		font-size: 1.8rem;
-		margin-bottom: 2rem;
-	}
-	&__loginOrRegisterButton:focus {
-		@include mixin.loginOrRegisterButtonFocused;
-	}
-	&__question {
-		font-family: variables.$fontFamily--secondary;
-		color: variables.$font--color--secondary;
-		font-weight: 400;
-		text-align: center;
-		margin-bottom: 1.5rem;
-		&__singUpOrLogIn {
-			text-decoration: none;
-			margin-left: 0.5rem;
-			color: rgba(36, 107, 253, 1);
-		}
-	}
+	@import "/src/scss/module/AuthOptions/syntaxForm/syntaxHeader";
+	@import "/src/scss/module/AuthOptions/syntaxForm/syntaxInputs";
+	@import "/src/scss/module/AuthOptions/syntaxForm/syntaxRememberMeCheckbox";
+	@import "/src/scss/module/AuthOptions/syntaxForm/syntaxSubmit";
+	@import "/src/scss/module/AuthOptions/syntaxForm/syntaxOptionToChangePath";
 }
+
 .form::after {
 	content: "";
 	position: absolute;
@@ -88,4 +69,8 @@
 	background-color: rgba(0, 0, 0, 0.159);
 	z-index: 2;
 	backdrop-filter: blur(1px);
+}
+
+.displayBtn {
+	background-color: #bebebe98;
 }

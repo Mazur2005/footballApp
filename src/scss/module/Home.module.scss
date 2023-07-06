@@ -17,7 +17,7 @@
 		margin-top: 2rem;
 	}
 	&__secondary--header::after {
-		content: url("src/assets/icon/fire.svg");
+		content: url("/src/assets/icon/fire.svg");
 	}
 	&__button {
 		@include mixin.linkButton;
@@ -25,13 +25,38 @@
 	&__button:focus {
 		@include mixin.linkButtonFocused;
 	}
+	&__button--disabled {
+		@include mixin.linkButton;
+		@include mixin.linkButtonFocused;
+	}
 }
 
 .img {
 	margin-top: -4rem;
 	height: calc(100vh - 15rem);
-	background-image: url("src/assets/img/cover.svg");
+	background-image: url("/src/assets/img/cover.svg");
 	background-repeat: no-repeat;
 	background-size: cover;
 	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.temporaryRwdError {
+	padding: 10rem 1rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	&__header {
+		font-size: 8rem;
+		font-weight: 700;
+	}
+	&__solution {
+		display: block;
+		font-size: 2rem;
+		margin-top: 2rem;
+		border-bottom: 1px solid red;
+		text-align: center;
+		margin-left: 1rem;
+		margin-right: 1rem;
+	}
 }

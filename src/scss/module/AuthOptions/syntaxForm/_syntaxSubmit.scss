@@ -1,0 +1,9 @@
+&__loginOrRegisterButton {
+	@include mixin.loginOrRegisterButton;
+	padding: 20px 73px 20px 73px;
+	font-size: 1.8rem;
+	margin-bottom: 2rem;
+}
+&__loginOrRegisterButton:focus {
+	@include mixin.loginOrRegisterButtonFocused;
+}

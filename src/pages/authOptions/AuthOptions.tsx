@@ -16,12 +16,12 @@ const AuthOptions = () => {
 				</div>
 				<div className={styles.authOptions__buttons}>
 					<Link
-						to={"/AuthOptions/SingIn"}
+						to={"/footballApp/AuthOptions/SingIn"}
 						className={styles.authOptions__buttons__singIn}>
 						Sing in
 					</Link>
 					<Link
-						to={"/AuthOptions/SingUp"}
+						to={"/footballApp/AuthOptions/SingUp"}
 						className={styles.authOptions__buttons__singUp}>
 						Sing up
 					</Link>

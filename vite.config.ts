@@ -13,7 +13,7 @@ export default defineConfig({
 			symbolId: "icon-[dir]-[name]",
 		}),
 	],
-	base: isProduction ? "./" : "/",
+	base: isProduction ? "./" : "/footballApp/",
 	build: {
 		assetsInlineLimit: 0,
 	},

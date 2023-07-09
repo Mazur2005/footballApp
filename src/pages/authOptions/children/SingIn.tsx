@@ -24,7 +24,7 @@ const structure = {
 		header: "Error",
 		text: "To many request. Try again later",
 		link: "Home page",
-		path: "/",
+		path: "/footballApp/",
 	},
 };
 

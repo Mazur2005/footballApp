@@ -9,14 +9,12 @@ import { RemindPassword } from "./pages/authOptions/children/RemindPassword";
 const router = createBrowserRouter([
 	{
 		errorElement: <ErrorPage />,
-		path: "/",
+		path: "/footballApp/",
 		children: [
+			{ index: true, element: <Home /> },
+
 			{
-				index: true,
-				element: <Home />,
-			},
-			{
-				path: "AuthOptions",
+				path: "/footballApp/AuthOptions",
 				children: [
 					{ index: true, element: <AuthOptions /> },
 					{ path: "SingIn", element: <SingIn /> },

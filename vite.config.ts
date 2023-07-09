@@ -13,7 +13,7 @@ export default defineConfig({
 			symbolId: "icon-[dir]-[name]",
 		}),
 	],
-	base: isProduction ? "/dist/" : "/",
+	base: isProduction ? "./" : "/",
 	build: {
 		assetsInlineLimit: 0,
 	},
